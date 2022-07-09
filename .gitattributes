@@ -1,2 +1,4 @@
 *.js linguist-detectable=false
+*.cjs linguist-detectable=false
+*.mjs linguist-detectable=false
 *.ts linguist-detectable=false
