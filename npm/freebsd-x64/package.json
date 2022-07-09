@@ -1,0 +1,18 @@
+{
+  "name": "bun-utilities-freebsd-x64",
+  "version": "0.1.0",
+  "os": [
+    "freebsd"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "bun-utilities.freebsd-x64.node",
+  "files": [
+    "bun-utilities.freebsd-x64.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

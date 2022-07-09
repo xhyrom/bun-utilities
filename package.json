@@ -1,0 +1,41 @@
+{
+  "name": "bun-utilities",
+  "version": "0.1.0",
+  "main": "index.js",
+  "types": "dist/index.d.ts",
+  "napi": {
+    "name": "bun-utilities",
+    "triples": {
+      "additional": [
+        "aarch64-unknown-linux-gnu",
+        "aarch64-unknown-linux-musl",
+        "armv7-unknown-linux-gnueabihf",
+        "x86_64-unknown-linux-musl",
+        "x86_64-unknown-freebsd"
+      ]
+    }
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "^2.10.1",
+    "ava": "^4.3.0",
+    "mitata": "^0.1.6"
+  },
+  "engines": {
+    "node": ">= 10"
+  },
+  "files": [
+    "dist/*",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "artifacts": "napi artifacts",
+    "build": "napi build --platform --release dist",
+    "build:debug": "napi build --platform dist",
+    "prepublishOnly": "napi prepublish -t npm",
+    "test": "ava",
+    "version": "napi version"
+  },
+  "packageManager": "yarn@3.2.1"
+}
