@@ -19,21 +19,22 @@
   "devDependencies": {
     "@napi-rs/cli": "^2.10.1",
     "ava": "^4.3.0",
+    "bun-types": "^0.1.2",
     "mitata": "^0.1.6"
   },
   "engines": {
     "node": ">= 10"
   },
   "files": [
-    "dist/*",
+    "lib/*",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release dist",
-    "build:debug": "napi build --platform dist",
-    "prepublishOnly": "napi prepublish -t npm",
+    "build": "napi build --platform --release lib",
+    "build:debug": "napi build --platform lib",
+    "prepublishOnly": "bun scripts/moveBinaries.ts",
     "test": "ava",
     "version": "napi version"
   },
