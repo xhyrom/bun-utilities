@@ -30,7 +30,7 @@ impl Default for Options {
           .unwrap_or_default()
           .into_os_string()
           .into_string()
-          .unwrap_or("/".to_string()),
+          .unwrap(),
       ),
       stdin: Some("inherit".to_string()),
       stdout: Some("piped".to_string()),
