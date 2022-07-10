@@ -18,4 +18,10 @@ export interface ProcessResult {
   exitCode?: number
   isExecuted: boolean
 }
-export function spawn(command: string, cwd: string, args: Array<string>): Promise<{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }>
+export interface Options {
+  cwd?: string
+  stdin?: 'inherit' | 'piped' | null
+  stdout?: 'inherit' | 'piped' | null
+  stderr?: 'inherit' | 'piped' | null
+}
+export function spawn(command: string, args: Array<string>, options?: Options | undefined | null): Promise<{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }>
