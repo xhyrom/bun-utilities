@@ -12,3 +12,10 @@ export interface ExecOptions {
   enviromentVariables?: Record<string, string>
 }
 export function exec(commandWithArgs: Array<string>, options?: ExecOptions | undefined | null): Promise<ExecSubProcess>
+export interface ProcessResult {
+  stdout?: string
+  stderr?: string
+  exitCode?: number
+  isExecuted: boolean
+}
+export function spawn(command: string, cwd: string, args: Array<string>): Promise<{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }>
