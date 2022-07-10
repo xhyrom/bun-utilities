@@ -5,3 +5,4 @@
 extern crate napi_derive;
 
 mod exec;
+mod spawn;
