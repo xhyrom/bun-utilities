@@ -1,7 +1,7 @@
 import test from 'ava'
 
-import { sum } from '../dist/index.js'
+import { exec } from '../lib/index.js'
 
-test('sum from native', (t) => {
-  t.is(sum(1, 2), 3)
+test('exec from native', async(t) => {
+  t.is((await exec(['echo', 'test'])).output.replaceAll('\n', ''), 'test');
 })

@@ -1,9 +1,7 @@
 #![deny(clippy::all)]
+#![allow(dead_code)]
 
 #[macro_use]
 extern crate napi_derive;
 
-#[napi]
-fn sum(a: i32, b: i32) -> i32 {
-  a + b
-}
+mod exec;

@@ -32,8 +32,9 @@
   ],
   "scripts": {
     "artifacts": "napi artifacts",
-    "build": "napi build --platform --release lib",
-    "build:debug": "napi build --platform lib",
+    "build": "napi build --platform --release lib && bun run move",
+    "build:debug": "napi build --platform lib && bun run move",
+    "move": "bun scripts/moveFiles.ts",
     "prepublishOnly": "bun scripts/moveBinaries.ts",
     "test": "ava",
     "version": "napi version"
