@@ -76,6 +76,10 @@ jobs:
           node-version: 16
           check-latest: true
           cache: yarn
+      - name: Setup bun
+        uses: xhyrom/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Install
         uses: actions-rs/toolchain@v1
         if: ${{ !matrix.settings.docker }}
@@ -208,6 +212,10 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
+      - name: Setup bun
+        uses: xhyrom/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -245,6 +253,10 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
+      - name: Setup bun
+        uses: xhyrom/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -282,6 +294,10 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
+      - name: Setup bun
+        uses: xhyrom/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -438,6 +454,10 @@ jobs:
           node-version: 16
           check-latest: true
           cache: yarn
+      - name: Setup bun
+        uses: xhyrom/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
