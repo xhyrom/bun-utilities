@@ -31,7 +31,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "artifacts": "napi artifacts",
+    "artifacts": "node scripts/moveArtifacts.mjs",
     "build": "napi build --platform --release lib",
     "build:debug": "napi build --platform lib",
     "move": "node scripts/moveFiles.mjs",
