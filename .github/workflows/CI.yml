@@ -219,7 +219,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
@@ -256,7 +256,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
@@ -295,7 +295,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
@@ -320,7 +320,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-gnu
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
@@ -355,7 +355,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-musl
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
@@ -397,7 +397,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
+          path: ./lib/bindings
       - name: List packages
         run: ls -R .
         shell: bash
