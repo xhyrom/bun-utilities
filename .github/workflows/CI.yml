@@ -25,45 +25,56 @@ jobs:
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
+            setup: |
+              curl https://bun.sh/install | bash
             build: |
-              yarn build
-              strip -x *.node
+              yarn build && bun run move
+              strip -x lib/bindings/*.node
           #- host: windows-latest
           #  build: yarn build
           #  target: x86_64-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+            setup: |
+              curl https://bun.sh/install | bash
             build: |-
               set -e &&
-              yarn build --target x86_64-unknown-linux-gnu &&
+              yarn build --target x86_64-unknown-linux-gnu && bun run move &&
               strip lib/bindings/*.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && yarn build && strip lib/bindings/*.node
+            setup: |
+              curl https://bun.sh/install | bash
+            build: set -e && yarn build && bun run move && strip lib/bindings/*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+            setup: |
+              curl https://bun.sh/install | bash
             build: |-
               set -e &&
-              yarn build --target aarch64-unknown-linux-gnu &&
+              yarn build --target aarch64-unknown-linux-gnu && bun run move &&
               aarch64-unknown-linux-gnu-strip lib/bindings/*.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
+              curl https://bun.sh/install | bash
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             build: |
-              yarn build --target=armv7-unknown-linux-gnueabihf
+              yarn build --target=armv7-unknown-linux-gnueabihf && bun run move
               arm-linux-gnueabihf-strip lib/bindings/*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            setup: |
+              curl https://bun.sh/install | bash
             build: |-
               set -e &&
               rustup target add aarch64-unknown-linux-musl &&
-              yarn build --target aarch64-unknown-linux-musl &&
+              yarn build --target aarch64-unknown-linux-musl && bun run move &&
               /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip lib/bindings/*.node
     name: stable - ${{ matrix.settings.target }} - node@16
     runs-on: ${{ matrix.settings.host }}
