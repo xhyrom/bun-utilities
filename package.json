@@ -34,8 +34,8 @@
     "artifacts": "napi artifacts",
     "build": "napi build --platform --release lib",
     "build:debug": "napi build --platform lib",
-    "move": "bun scripts/moveFiles.ts",
-    "prepublishOnly": "bun scripts/moveBinaries.ts",
+    "move": "node scripts/moveFiles.mjs",
+    "prepublishOnly": "node scripts/moveFiles.mjs",
     "test": "ava",
     "version": "napi version"
   },
