@@ -28,9 +28,9 @@ jobs:
             build: |
               yarn build && yarn run move
               strip -x lib/bindings/*.node
-          #- host: windows-latest
-          #  build: yarn build
-          #  target: x86_64-pc-windows-msvc
+          - host: windows-latest
+            build: yarn build && yarn run move
+            target: x86_64-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
@@ -174,8 +174,8 @@ jobs:
             env
             freebsd-version
             yarn install
-            yarn build
-            strip -x *.node
+            yarn build && yarn build move
+            strip -x lib/bindings/*.node
             yarn test
             rm -rf node_modules
             rm -rf target
@@ -183,7 +183,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bindings-freebsd
-          path: ${{ env.APP_NAME }}.*.node
+          path: lib/bindings/${{ env.APP_NAME }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
