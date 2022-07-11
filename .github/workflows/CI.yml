@@ -41,7 +41,7 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && yarn build && bun run move && strip lib/bindings/*.node
+            build: set -e && yarn build && yarn run move && strip lib/bindings/*.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -208,10 +208,6 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
-      - name: Setup bun
-        uses: xhyrom/setup-bun@v0.1.0
-        with:
-          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -249,10 +245,6 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
-      - name: Setup bun
-        uses: xhyrom/setup-bun@v0.1.0
-        with:
-          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -290,10 +282,6 @@ jobs:
           node-version: ${{ matrix.node }}
           check-latest: true
           cache: yarn
-      - name: Setup bun
-        uses: xhyrom/setup-bun@v0.1.0
-        with:
-          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
@@ -450,10 +438,6 @@ jobs:
           node-version: 16
           check-latest: true
           cache: yarn
-      - name: Setup bun
-        uses: xhyrom/setup-bun@v0.1.0
-        with:
-          bun-version: latest
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
