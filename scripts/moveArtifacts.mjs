@@ -1,4 +1,4 @@
-import { renameSync, readdirSync } from 'fs';
+import { renameSync, readdirSync, existsSync } from 'fs';
 
 if (!existsSync('./lib/bindings')) mkdirSync("./lib/bindings", { recursive: true });
 
