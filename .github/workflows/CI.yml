@@ -28,9 +28,9 @@ jobs:
             build: |
               yarn build && yarn run move
               strip -x lib/bindings/*.node
-          #- host: windows-latest
-          #  build: yarn build
-          #  target: x86_64-pc-windows-msvc
+          - host: windows-latest
+            build: yarn build
+            target: x86_64-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
