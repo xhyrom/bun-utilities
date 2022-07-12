@@ -1,8 +1,14 @@
 {
   "name": "bun-utilities",
   "version": "0.1.1",
-  "main": "lib/index.js",
+  "main": "lib/index.mjs",
   "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.mjs"
+    }
+  },
   "napi": {
     "name": "bun-utilities",
     "triples": {
@@ -44,7 +50,8 @@
     "move": "node scripts/moveFiles.mjs",
     "gpr": "node scripts/gpr.mjs",
     "prepublishOnly": "node scripts/moveFiles.mjs",
-    "test": "ava",
+    "test:node": "ava tests/node/*",
+    "test:bun": "bun wiptest",
     "version": "napi version"
   },
   "packageManager": "yarn@3.2.1"
