@@ -456,7 +456,7 @@ jobs:
         run: ls -R ./npm
         shell: bash
       - name: Publish
-        if: github.event_name === 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch'
         run: |
           ls -R ./lib
           npm publish --tag next --access public
