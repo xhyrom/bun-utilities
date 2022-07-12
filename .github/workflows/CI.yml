@@ -438,6 +438,7 @@ jobs:
         with:
           node-version: 16
           check-latest: true
+          registry-url: https://registry.npmjs.org/
           cache: yarn
       - name: Cache NPM dependencies
         uses: actions/cache@v3
@@ -462,7 +463,7 @@ jobs:
           npm publish --tag next --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   publish-gpr:
     name: Publish on GPR
     runs-on: ubuntu-latest
