@@ -420,6 +420,26 @@ jobs:
             set -e
             yarn test:node
             ls -la
+  test-linux-x64-gnu-binding-bun:
+    name: Test bindings on Linux-x64-gnu - Bun
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Bun
+        uses: xhyrom/setup-bun@v0.1.2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-x86_64-unknown-linux-gnu
+          path: ./lib/bindings
+      - name: Test bindings
+        run: bun run test:bun
   publish-npm:
     name: Publish on NPM
     runs-on: ubuntu-latest
