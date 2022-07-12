@@ -25,6 +25,13 @@
   "engines": {
     "node": ">= 10"
   },
+  "keywords": [
+    "bun",
+    "utilities",
+    "rust",
+    "bindings",
+    "napi"
+  ],
   "files": [
     "lib/*",
     "README.md",
