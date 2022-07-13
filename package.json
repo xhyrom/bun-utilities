@@ -21,7 +21,7 @@
       ]
     }
   },
-  "author": "xHyroM"
+  "author": "xHyroM",
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.10.1",
