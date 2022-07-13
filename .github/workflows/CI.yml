@@ -480,7 +480,7 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: |
           ls -R ./lib
-          npm publish --tag next --access public
+          npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -526,6 +526,6 @@ jobs:
       - name: Publish
         if: github.event_name == 'workflow_dispatch'
         run: |
-          npm publish --tag next --access public
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
