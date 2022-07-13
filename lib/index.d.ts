@@ -11,7 +11,7 @@ export interface ExecOptions {
   cwd?: string
   enviromentVariables?: Record<string, string>
 }
-export function exec(commandWithArgs: Array<string>, options?: ExecOptions | undefined | null): Promise<ExecSubProcess>
+export function exec(commandWithArgs: Array<string>, options?: ExecOptions | undefined | null): ExecSubProcess
 export interface ProcessResult {
   stdout?: string
   stderr?: string
@@ -24,4 +24,4 @@ export interface Options {
   stdout?: 'inherit' | 'piped' | null
   stderr?: 'inherit' | 'piped' | null
 }
-export function spawn(command: string, args: Array<string>, options?: Options | undefined | null): Promise<{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }>
+export function spawn(command: string, args: Array<string>, options?: Options | undefined | null): { stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }

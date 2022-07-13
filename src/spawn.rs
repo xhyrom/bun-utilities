@@ -66,9 +66,9 @@ impl Options {
 
 #[napi(
   // This is more accurate signature, unfortunately we can't do union on the struct...
-  ts_return_type = "Promise<{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }>"
+  ts_return_type = "{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }"
 )]
-async fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
+fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
   let options = Options {
     ..options.unwrap_or_default()
   };
