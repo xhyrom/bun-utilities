@@ -21,6 +21,7 @@
       ]
     }
   },
+  "author": "xHyroM",
   "license": "MIT",
   "devDependencies": {
     "@napi-rs/cli": "^2.10.1",
@@ -30,6 +31,13 @@
   },
   "engines": {
     "node": ">= 10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xHyroM/bun-utilities.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xHyroM/bun-utilities/issues"
   },
   "keywords": [
     "bun",
