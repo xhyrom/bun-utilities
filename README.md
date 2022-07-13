@@ -4,5 +4,5 @@ This package adds some missing utilities using `napi` until they are implemented
 
 ## Current utilities
 
-* `exec`
+* `exec` - Like `Deno.exec()`
 * `spawn`

@@ -64,11 +64,23 @@ impl Options {
   }
 }
 
+// Alias for spawn
 #[napi(
   // This is more accurate signature, unfortunately we can't do union on the struct...
   ts_return_type = "{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }"
 )]
-fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
+pub fn exec(mut command_with_args: Vec<String>, options: Option<Options>) -> ProcessResult {
+  let command = command_with_args.get(0).unwrap().to_string();
+  command_with_args.remove(0);
+
+  spawn(command, command_with_args, options)
+}
+
+#[napi(
+  // This is more accurate signature, unfortunately we can't do union on the struct...
+  ts_return_type = "{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }"
+)]
+pub fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
   let options = Options {
     ..options.unwrap_or_default()
   };
@@ -85,7 +97,7 @@ fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> Proces
     .stderr(stderr)
     .stdout(stdout)
     .output();
-
+  
   if let Ok(output) = output {
     ProcessResult {
       stdout: Some(String::from_utf8_lossy(&output.stdout).to_string()),
