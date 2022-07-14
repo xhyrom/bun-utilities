@@ -341,10 +341,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bun-types@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "bun-types@npm:0.1.2"
-  checksum: 4bdbc20646c19abf05215e2e26f6188b82e008aa9bbf12e1066b4ff3073e17dfa742f356a514869b5eebdcfbaa828b395d90e2d4df70195406ebf325cdd6639a
+"bun-types@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "bun-types@npm:0.1.4"
+  checksum: 4637573ee805f7c3e8abf11789a88a4a1d5c93ec6ea28ffc9ab4b714c7a44345f99565a7c6ebf5df7bdcfbd7f617d72bb934b307e0f2cfe6b0fef5cdf5e715fe
   languageName: node
   linkType: hard
 
@@ -354,7 +354,7 @@ __metadata:
   dependencies:
     "@napi-rs/cli": ^2.10.1
     ava: ^4.3.0
-    bun-types: ^0.1.2
+    bun-types: ^0.1.4
     mitata: ^0.1.6
   languageName: unknown
   linkType: soft
