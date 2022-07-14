@@ -64,7 +64,7 @@ impl Options {
   }
 }
 
-// Alias for spawn
+// Alias for spawn function
 #[napi(
   // This is more accurate signature, unfortunately we can't do union on the struct...
   ts_return_type = "{ stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }"

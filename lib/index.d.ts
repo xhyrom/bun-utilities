@@ -20,4 +20,9 @@ export function spawn(command: string, args: Array<string>, options?: Options | 
 export interface RmDirOptions {
   recursive?: boolean
 }
+export interface CopyDirOptions {
+  recursive?: boolean
+  copyFiles?: boolean
+}
 export function rmdir(path: string, options?: RmDirOptions | undefined | null): string
+export function copydir(src: string, dest: string, options?: CopyDirOptions | undefined | null): string
