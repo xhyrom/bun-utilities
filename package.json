@@ -59,7 +59,7 @@
     "gpr": "node scripts/gpr.mjs",
     "prepublishOnly": "node scripts/moveFiles.mjs",
     "test:node": "ava tests/node/*",
-    "test:bun": "bun wiptest",
+    "test:bun": "bun wiptest tests/bun/",
     "version": "napi version"
   },
   "packageManager": "yarn@3.2.1"
