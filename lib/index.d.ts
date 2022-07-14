@@ -17,3 +17,7 @@ export interface Options {
 }
 export function exec(commandWithArgs: Array<string>, options?: Options | undefined | null): { stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }
 export function spawn(command: string, args: Array<string>, options?: Options | undefined | null): { stdout: undefined, stderr: undefined, exitCode?: number, isExecuted: false } | { stdout: string, stderr: string, exitCode?: number, isExecuted: true }
+export interface RmDirOptions {
+  recursive?: boolean
+}
+export function rmdir(path: string, options?: RmDirOptions | undefined | null): void
