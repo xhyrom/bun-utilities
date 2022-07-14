@@ -20,4 +20,4 @@ export function spawn(command: string, args: Array<string>, options?: Options | 
 export interface RmDirOptions {
   recursive?: boolean
 }
-export function rmdir(path: string, options?: RmDirOptions | undefined | null): void
+export function rmdir(path: string, options?: RmDirOptions | undefined | null): string

@@ -6,20 +6,37 @@ pub struct RmDirOptions {
 }
 
 #[napi]
-pub fn rmdir(path: String, options: Option<RmDirOptions>) -> () {
+pub fn rmdir(path: String, options: Option<RmDirOptions>) -> String {
     let options = options.unwrap_or(RmDirOptions {
         recursive: Some(false)
     });
 
     let recursive = options.recursive.unwrap_or(false);
 
+    let error;
     if Path::new(&path).exists() {
         if recursive {
-            fs::remove_dir_all(path).expect("can't remove directory");
-            return ();
+            let message = match fs::remove_dir_all(path) {
+                Ok(()) => "ok",
+                Err(e) => {
+                    error = format!("{}", e.kind().to_string());
+                    &error
+                },
+            };
+
+            return message.to_string();
         } else {
-            fs::remove_dir(path).expect("can't remove directory");
-            return ();
+            let message = match fs::remove_dir(path) {
+                Ok(()) => "ok",
+                Err(e) => {
+                    error = format!("{}", e.kind().to_string());
+                    &error
+                }
+            };
+
+            return message.to_string();
         }
+    } else {
+        return "Invalid file".to_string()
     }
 }
