@@ -3,7 +3,8 @@
   "scripts": {
     "bench:bun": "bun bun-utilities.mjs",
     "bench:node": "node node-child-process.mjs",
-    "bench": "bun run bench:bun && bun run bench:node"
+    "summary": "bun summary.mjs",
+    "bench": "bun run bench:bun && bun run bench:node && bun run summary"
   },
   "keywords": [],
   "author": "",

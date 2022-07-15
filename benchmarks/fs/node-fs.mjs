@@ -40,9 +40,10 @@ const copyDirectory = async(src, dest) => {
 bench('copydir empty', async() => await copyDirectory(copyDirPathEmpty, copyDirPathEmptyDestination));
 bench('copydir files', async() => await copyDirectory(copyDirPathWithFiles, copyDirPathWithFilesDestination));
 bench('rmdir empty', async() => await rm(copyDirPathEmptyDestination, { recursive: true, force: true }));
-bench('rmdir with files', async() => await rm(copyDirPathWithFilesDestination, { recursive: true, force: true }));
+bench('rmdir files', async() => await rm(copyDirPathWithFilesDestination, { recursive: true, force: true }));
 
-await run();
+const output = await run();
+writeFile(join(__dirname, 'outputs', 'node-fs.json'), JSON.stringify(output));
 
 // Cleanup
 await rmdir(copyDirPathEmpty, { recrusive: true });

@@ -19,9 +19,10 @@ const copyDirPathWithFilesDestination = join(__dirname, 'test-copydir-with-files
 bench('copydir empty', async() => await copydir(copyDirPathEmpty, copyDirPathEmptyDestination));
 bench('copydir files', async() => await copydir(copyDirPathWithFiles, copyDirPathWithFilesDestination));
 bench('rmdir empty', async() => await rmdir(copyDirPathEmptyDestination));
-bench('rmdir with files', async() => await rmdir(copyDirPathWithFilesDestination, { recursive: true }));
+bench('rmdir files', async() => await rmdir(copyDirPathWithFilesDestination, { recursive: true }));
 
-await run();
+const output = await run();
+Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
 
 // Cleanup
 await rmdir(copyDirPathEmpty);
