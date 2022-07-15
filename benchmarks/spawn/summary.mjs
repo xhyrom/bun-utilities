@@ -3,7 +3,6 @@ import { join } from 'node:path';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
-console.log(await (await Bun.file(join(__dirname, 'outputs', 'bun-utilities.json'))).text());
 const outputBunUtilities = JSON.parse(await (await Bun.file(join(__dirname, 'outputs', 'bun-utilities.json'))).text()).benchmarks.map(b => {
     return { ...b, name: `[bun-utilities] ${b.name}`, id: b.name };
 });
