@@ -14,4 +14,4 @@ bench('run bun --version', async() => await execChildProcess('bun --version'));
 bench('run git --version', async() => await execChildProcess('git --version'));
 
 const output = await run();
-writeFile(join(__dirname, 'outputs', 'node-child-process.json'), JSON.stringify(output));
+await writeFile(join(__dirname, 'outputs', 'node-child-process.json'), JSON.stringify(output));

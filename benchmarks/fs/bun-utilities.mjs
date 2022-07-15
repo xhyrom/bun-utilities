@@ -22,7 +22,7 @@ bench('rmdir empty', async() => await rmdir(copyDirPathEmptyDestination));
 bench('rmdir files', async() => await rmdir(copyDirPathWithFilesDestination, { recursive: true }));
 
 const output = await run();
-Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
+await Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
 
 // Cleanup
 await rmdir(copyDirPathEmpty);

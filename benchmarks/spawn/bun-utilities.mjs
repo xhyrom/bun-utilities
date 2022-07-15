@@ -10,4 +10,4 @@ bench('run bun --version', async() => await spawn('bun', ['--version']));
 bench('run git --version', async() => await spawn('git', ['--version']));
 
 const output = await run();
-Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
+await Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
