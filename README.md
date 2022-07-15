@@ -4,5 +4,7 @@ This package adds some missing utilities using `napi` until they are implemented
 
 ## Current utilities
 
-* `exec` - Like `Deno.exec()`
-* `spawn`
+* `spawn` - `spawn`, `exec` - Like `Deno.exec()`
+* `fs` - `rmdir`, `copydir`
+
+> You can use this utilities with bun or node
