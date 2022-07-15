@@ -3,7 +3,8 @@ import { exec, rmdir, copydir } from '../../lib/index.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-const __dirname = new URL('.', import.meta.url).pathname;
+const urlPathName = new URL('.', import.meta.url).pathname;
+const __dirname = process.platform === 'win32' ? urlPathName.slice(1) : urlPathName;
 
 test('exec', async(t) => {
   t.is((await exec(['echo', 'test'])).stdout.replace(/\n|\r/g, ''), 'test');

@@ -1,0 +1,8 @@
+{
+    "name": "benchmarks",
+    "scripts": {
+        "fs": "cd fs && bun run bench",
+        "spawn": "cd spawn && bun run bench",
+        "all": "bun run fs && bun run spawn"
+    }
+}
