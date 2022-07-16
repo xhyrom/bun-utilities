@@ -1,6 +1,6 @@
 {
   "name": "bun-utilities-android-arm-eabi",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "os": [
     "android"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "bun-utilities-linux-arm-gnueabihf",
-  "version": "0.1.0",
+  "version": "0.1.5",
   "os": [
     "linux"
   ],
