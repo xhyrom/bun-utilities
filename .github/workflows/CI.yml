@@ -47,7 +47,7 @@ jobs:
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
-            build: set -e && yarn build && strip *.node
+            build: set -e && yarn build && yarn move && strip lib/bindings/*.node
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -64,7 +64,7 @@ jobs:
             build: |-
               set -e &&
               yarn build --target aarch64-unknown-linux-gnu && yarn move &&
-              aarch64-unknown-linux-gnu-strip lib/bindings*.node
+              aarch64-unknown-linux-gnu-strip lib/bindings/*.node
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
