@@ -1,5 +1,5 @@
 import test from 'ava'
-import { exec, rmdir, copydir } from '../../lib/index.js';
+import { exec, rmdir, copydir, copyfile } from '../../lib/index.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
