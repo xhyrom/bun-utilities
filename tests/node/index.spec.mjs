@@ -65,7 +65,7 @@ test('copydir with recursive', (t) => {
   t.is(file, Buffer.from(JSON.stringify({ message: 'Hello, bun!' })).toString('base64'));
 });
 
-it('copyfile', (t) => {
+test('copyfile', (t) => {
   const path = join(__dirname, 'test-copyfile');
   const pathDestination = join(__dirname, 'test-copyfile-destination');
 
