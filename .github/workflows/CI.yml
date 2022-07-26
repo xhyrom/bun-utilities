@@ -585,6 +585,7 @@ jobs:
   create-release:
     name: Create release
     runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
     needs:
       - build-freebsd
       - test-macOS-windows-binding
