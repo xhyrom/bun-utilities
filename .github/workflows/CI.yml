@@ -617,10 +617,12 @@ jobs:
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
+      - name: Set version
+        run: echo "version=$(jq --raw-output '.version' package.json)" >> $GITHUB_ENV
       - name: Create Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          tag_name: $(jq --raw-output '.version' package.json)
+          tag_name: ${{ env.version }}
           body: "This is the release of bun-utilities that corresponds to the commit [${{ github.sha }}]"
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
