@@ -81,6 +81,7 @@ jobs:
               export CXX="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang++"
               export AR="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar"
               export PATH="${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin:${PATH}"
+              ls ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/
               yarn build --target aarch64-linux-android && yarn move
               ${ANDROID_NDK_HOME}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip lib/bindings/*.node
           - host: ubuntu-latest
