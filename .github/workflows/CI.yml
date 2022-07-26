@@ -142,6 +142,11 @@ jobs:
         with:
           path: .yarn/cache
           key: npm-cache-build-${{ matrix.settings.target }}-node@16
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        if: ${{ !matrix.settings.docker }}
+        with:
+          version: "10.0"
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
