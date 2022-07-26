@@ -1,5 +1,5 @@
 import { run, bench } from 'mitata';
-import { copydir, rmdir } from '../../lib/index.mjs';
+import { copydir, copyfile, rmdir } from '../../lib/index.mjs';
 import { mkdir } from 'fs/promises';
 import { join } from 'path';
 
@@ -16,10 +16,18 @@ await Bun.write(join(copyDirPathWithFiles, 'test.json'), JSON.stringify({ messag
 
 const copyDirPathWithFilesDestination = join(__dirname, 'test-copydir-with-files-destination');
 
-bench('copydir empty', async() => await copydir(copyDirPathEmpty, copyDirPathEmptyDestination));
-bench('copydir files', async() => await copydir(copyDirPathWithFiles, copyDirPathWithFilesDestination));
-bench('rmdir empty', async() => await rmdir(copyDirPathEmptyDestination));
-bench('rmdir files', async() => await rmdir(copyDirPathWithFilesDestination, { recursive: true }));
+const copyFilePath = join(__dirname, 'test-copyfile', 'test.json');
+await mkdir(join(__dirname, 'test-copyfile'));
+await Bun.write(copyFilePath, JSON.stringify({ message: "Hello, bun!" }));
+
+const copyFilePathDestination = join(__dirname, 'test-copyfile-destination', 'test.json');
+await mkdir(join(__dirname, 'test-copyfile-destination'));
+
+bench('copydir empty', () => copydir(copyDirPathEmpty, copyDirPathEmptyDestination));
+bench('copydir files', () => copydir(copyDirPathWithFiles, copyDirPathWithFilesDestination));
+bench('rmdir empty', () => rmdir(copyDirPathEmptyDestination));
+bench('rmdir files', () => rmdir(copyDirPathWithFilesDestination, { recursive: true }));
+bench('copyfile', () => copyfile(copyFilePath, copyFilePathDestination));
 
 const output = await run();
 await Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify(output));
@@ -27,3 +35,5 @@ await Bun.write(join(__dirname, 'outputs', 'bun-utilities.json'), JSON.stringify
 // Cleanup
 await rmdir(copyDirPathEmpty);
 await rmdir(copyDirPathWithFiles, { recursive: true });
+await rmdir(join(__dirname, 'test-copyfile'), { recursive: true });
+await rmdir(join(__dirname, 'test-copyfile-destination'), { recursive: true });

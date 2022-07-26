@@ -15,7 +15,8 @@ const summaries = [
     'copydir empty',
     'copydir files',
     'rmdir empty',
-    'rmdir files'
+    'rmdir files',
+    'copyfile'
 ];
 
 for (const summaryName of summaries) {

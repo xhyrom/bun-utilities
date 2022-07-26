@@ -1,5 +1,5 @@
 import { run, bench } from 'mitata';
-import { mkdir, writeFile, rm, access, readFile, stat, readdir, rmdir } from 'fs/promises';
+import { mkdir, writeFile, rm, access, readFile, stat, readdir, rmdir, copyFile } from 'fs/promises';
 import { join } from 'path';
 
 const urlPathName = new URL('.', import.meta.url).pathname;
@@ -15,6 +15,13 @@ await mkdir(copyDirPathWithFiles);
 await writeFile(join(copyDirPathWithFiles, 'test.json'), JSON.stringify({ message: "Hello, bun!" }));
 
 const copyDirPathWithFilesDestination = join(__dirname, 'test-copydir-with-files-destination');
+
+const copyFilePath = join(__dirname, 'test-copyfile', 'test.json');
+await mkdir(join(__dirname, 'test-copyfile'));
+await writeFile(copyFilePath, JSON.stringify({ message: "Hello, bun!" }));
+
+const copyFilePathDestination = join(__dirname, 'test-copyfile-destination', 'test.json');
+await mkdir(join(__dirname, 'test-copyfile-destination'));
 
 const existsFileOrFolder = async(src) => {
     try {
@@ -41,6 +48,7 @@ bench('copydir empty', async() => await copyDirectory(copyDirPathEmpty, copyDirP
 bench('copydir files', async() => await copyDirectory(copyDirPathWithFiles, copyDirPathWithFilesDestination));
 bench('rmdir empty', async() => await rm(copyDirPathEmptyDestination, { recursive: true, force: true }));
 bench('rmdir files', async() => await rm(copyDirPathWithFilesDestination, { recursive: true, force: true }));
+bench('copyfile', async() => await copyFile(copyFilePath, copyFilePathDestination));
 
 const output = await run();
 writeFile(join(__dirname, 'outputs', 'node-fs.json'), JSON.stringify(output));
@@ -48,3 +56,5 @@ writeFile(join(__dirname, 'outputs', 'node-fs.json'), JSON.stringify(output));
 // Cleanup
 await rmdir(copyDirPathEmpty, { recrusive: true });
 await rmdir(copyDirPathWithFiles, { recursive: true });
+await rmdir(join(__dirname, 'test-copyfile'), { recursive: true });
+await rmdir(join(__dirname, 'test-copyfile-destination'), { recursive: true });
