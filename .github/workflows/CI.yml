@@ -617,16 +617,13 @@ jobs:
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
-      - name: Build Changelog
-        id: github_release
-        uses: mikepenz/release-changelog-builder-action@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set version
+        run: echo "version=$(jq --raw-output '.version' package.json)" >> $GITHUB_ENV
       - name: Create Release
         uses: softprops/action-gh-release@v0.1.14
         with:
-          tag_name: $(jq --raw-output '.version' package.json)
-          body: ${{steps.github_release.outputs.changelog}}
+          tag_name: ${{ env.version }}
+          body: "This is the release of bun-utilities that corresponds to the commit [${{ github.sha }}]"
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             lib/bindings/*
