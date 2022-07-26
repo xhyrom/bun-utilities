@@ -1,7 +1,7 @@
 use std::{io, path::Path, fs};
 
 #[napi(object)]
-pub struct RmDirOptions {
+pub struct RecrusiveOptions {
     pub recursive: Option<bool>,
 }
 
@@ -12,15 +12,16 @@ pub struct CopyDirOptions {
 }
 
 #[napi]
-pub fn rmdir(path: String, options: Option<RmDirOptions>) -> String {
-    let options = options.unwrap_or(RmDirOptions {
+pub fn rmdir(path: String, options: Option<RecrusiveOptions>) -> String {
+    let options = options.unwrap_or(RecrusiveOptions {
         recursive: Some(false)
     });
 
     let recursive = options.recursive.unwrap_or(false);
 
+    let path = Path::new(&path);
     let error;
-    if Path::new(&path).exists() {
+    if path.exists() {
         if recursive {
             let message = match fs::remove_dir_all(path) {
                 Ok(()) => "ok",
@@ -48,6 +49,42 @@ pub fn rmdir(path: String, options: Option<RmDirOptions>) -> String {
 }
 
 #[napi]
+pub fn copyfile(src: String, dest: String, options: Option<RecrusiveOptions>) -> String {
+    let options = options.unwrap_or(RecrusiveOptions {
+        recursive: Some(false)
+    });
+
+    let recursive = options.recursive.unwrap_or(false);
+
+    let source = Path::new(&src);
+    let destination = Path::new(&dest);
+
+    if !source.exists() {
+        return "Invalid source file".to_string();
+    }
+
+    if destination.exists() && !recursive {
+        return "Destination file exists".to_string();
+    }
+
+    let error;
+    let message = match __copyfile(source, destination) {
+        Ok(..) => "ok",
+        Err(e) => {
+            error = format!("{}", e.kind().to_string());
+            &error
+        }
+    };
+
+    return message.to_string();
+}
+
+// Internal implementation for copyfile function
+fn __copyfile(src: &Path, dest: &Path) -> io::Result<u64> {
+    fs::copy(src, dest)
+}
+
+#[napi]
 pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> String {
     let options = options.unwrap_or(CopyDirOptions {
         recursive: Some(false),
@@ -57,14 +94,31 @@ pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> St
     let recursive = options.recursive.unwrap_or(false);
     let copy_files = options.copy_files.unwrap_or(true);
 
+    let source = Path::new(&src);
+    let destination = Path::new(&dest);
+
+    if !source.exists() {
+        return "Invalid source folder".to_string();
+    }
+
+    if destination.exists() && !recursive {
+        return "Destination folder exists".to_string();
+    }
+
+    if destination.exists() && recursive {
+        rmdir(destination.to_str().unwrap().to_string(), Some(RecrusiveOptions {
+            recursive: Some(true)
+        }));
+    }
+
     let error;
     let message = match __copydir(
-        Path::new(&src),
-        Path::new(&dest),
+        source,
+        destination,
         recursive,
         copy_files,
     ) {
-        Ok(()) => "ok",
+        Ok(..) => "ok",
         Err(e) => {
             error = format!("{}", e.kind().to_string());
             &error
@@ -86,10 +140,10 @@ fn __copydir(src: impl AsRef<Path>, dest: impl AsRef<Path>, recursive: bool, cop
             let dest_path = dest.as_ref().join(entry.file_name());
             if dest_path.exists() {
                 if recursive {
-                    fs::copy(entry.path(), dest_path)?;
+                    __copyfile(&entry.path(), &dest_path)?;
                 }
             } else {
-                fs::copy(entry.path(), dest_path)?;
+                __copyfile(&entry.path(), &dest_path)?;
             }
         }
     }

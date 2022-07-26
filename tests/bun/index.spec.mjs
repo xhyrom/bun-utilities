@@ -1,5 +1,5 @@
 import { expect, it } from 'bun:test';
-import { exec, rmdir, copydir } from '../../lib/index.mjs';
+import { exec, rmdir, copydir, copyfile } from '../../lib/index.mjs';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
@@ -7,7 +7,7 @@ const __dirname = new URL('.', import.meta.url).pathname;
 
 it('exec', async() => {
   expect((await exec(['echo', 'test'])).stdout.replace(/\n|\r/g, '')).toBe('test');
-})
+});
 
 it('rmdir', () => {
   it('without recursive', () => {
@@ -32,7 +32,7 @@ it('rmdir', () => {
   
     expect(output).toBe('ok');
   });
-})
+});
 
 it('copydir', () => {
   it('without recursive', async() => {
@@ -66,8 +66,18 @@ it('copydir', () => {
     const file = atob(await (await Bun.file(join(pathDestination, 'test.json')).text()));
     expect(file).toBe(atob(JSON.stringify({ message: "Hello, bun!" })));
   });
-})
+});
 
-rmdir(join(__dirname, 'test'));
-rmdir(join(__dirname, 'test-copydir'));
-rmdir(join(__dirname, 'test-copydir-destination'));
+it('copyfile', () => {
+  const path = join(__dirname, 'test-copyfile');
+  const pathDestination = join(__dirname, 'test-copyfile-destination');
+
+  if (!existsSync(path)) mkdirSync(path);
+  if (!existsSync(pathDestination)) mkdirSync(pathDestination);
+
+  const testEmptyPath = join(path, 'test-empty.txt');
+  const testEmptyPathDestination = join(pathDestination, 'test-empty.txt');
+
+  writeFileSync(testEmptyPath, '');
+  expect(copyfile(testEmptyPath, testEmptyPathDestination)).toBe('ok');
+});

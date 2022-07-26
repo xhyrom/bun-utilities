@@ -1,6 +1,6 @@
 {
   "name": "bun-utilities",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "lib/index.mjs",
   "types": "lib/index.d.ts",
   "exports": {
@@ -65,7 +65,7 @@
     "gpr": "node scripts/gpr.mjs",
     "prepublishOnly": "node scripts/moveFiles.mjs",
     "test:node": "ava tests/node/* && node tests/node/_cleanup.mjs",
-    "test:bun": "bun wiptest tests/bun/",
+    "test:bun": "bun wiptest tests/bun/ && bun tests/bun/_cleanup.mjs",
     "version": "napi version"
   },
   "packageManager": "yarn@3.2.1"

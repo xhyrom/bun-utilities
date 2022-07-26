@@ -64,3 +64,17 @@ test('copydir with recursive', (t) => {
   const file = Buffer.from(readFileSync(join(pathDestination, 'test.json')).toString()).toString('base64');
   t.is(file, Buffer.from(JSON.stringify({ message: 'Hello, bun!' })).toString('base64'));
 });
+
+it('copyfile', (t) => {
+  const path = join(__dirname, 'test-copyfile');
+  const pathDestination = join(__dirname, 'test-copyfile-destination');
+
+  if (!existsSync(path)) mkdirSync(path);
+  if (!existsSync(pathDestination)) mkdirSync(pathDestination);
+
+  const testEmptyPath = join(path, 'test-empty.txt');
+  const testEmptyPathDestination = join(pathDestination, 'test-empty.txt');
+
+  writeFileSync(testEmptyPath, '');
+  t.is(copyfile(testEmptyPath, testEmptyPathDestination), 'ok');
+});
