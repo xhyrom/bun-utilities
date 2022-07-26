@@ -52,9 +52,9 @@ impl Options {
       "piped" => process::Stdio::piped(),
       _ => process::Stdio::null(),
     };
-    let stderr = match_to_stdio(self.stderr.as_ref().unwrap_or(&String::default()).as_str());
-    let stdin = match_to_stdio(self.stdin.as_ref().unwrap_or(&String::default()).as_str());
-    let stdout = match_to_stdio(self.stdout.as_ref().unwrap_or(&String::default()).as_str());
+    let stderr = match_to_stdio(self.stderr.as_ref().unwrap_or(&"piped".to_string()).as_str());
+    let stdin = match_to_stdio(self.stdin.as_ref().unwrap_or(&"inherit".to_string()).as_str());
+    let stdout = match_to_stdio(self.stdout.as_ref().unwrap_or(&"piped".to_string()).as_str());
 
     Stdio {
       stdin,
@@ -107,7 +107,7 @@ pub fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> Pr
     }
   } else {
     ProcessResult {
-      stderr: None,
+      stderr: Some(output.unwrap_err().kind().to_string()),
       stdout: None,
       exit_code: None,
       is_executed: false,

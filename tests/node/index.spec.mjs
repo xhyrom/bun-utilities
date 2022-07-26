@@ -1,16 +1,22 @@
 import test from 'ava'
 import { exec, rmdir, copydir, copyfile } from '../../lib/index.js';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
 const urlPathName = new URL('.', import.meta.url).pathname;
 const __dirname = process.platform === 'win32' ? urlPathName.slice(1) : urlPathName;
 
-test('exec', async(t) => {
-  t.is((await exec(['echo', 'test'])).stdout.replace(/\n|\r/g, ''), 'test');
+test('exec - specific cwd', (t) => {
+  t.is(exec(['echo', 'test'], {
+    cwd: resolve('..')
+  }).stdout.replace(/\n|\r/g, ''), 'test');
 });
 
-test('rmdir without recursive', (t) => {
+test('exec - default cwd', (t) => {
+  t.is(exec(['echo', 'test']).stdout.replace(/\n|\r/g, ''), 'test');
+});
+
+test('rmdir - without recursive', (t) => {
   const path = join(__dirname, 'test');
   if (!existsSync(path)) mkdirSync(path);
   if (!existsSync(join(path, 'test'))) mkdirSync(join(path, 'test'));
@@ -20,7 +26,7 @@ test('rmdir without recursive', (t) => {
   t.is(output, 'directory not empty')
 });
 
-test('rmdir with recursive', (t) => {
+test('rmdir - with recursive', (t) => {
   const path = join(__dirname, 'test');
   if (!existsSync(path)) mkdirSync(path);
   if (!existsSync(join(path, 'test'))) mkdirSync(join(path, 'test'));
@@ -33,7 +39,7 @@ test('rmdir with recursive', (t) => {
   t.is(output, 'ok');
 });
 
-test('copydir without recursive', (t) => {
+test('copydir - without recursive', (t) => {
   const path = join(__dirname, 'test-copydir');
   const pathDestination = join(__dirname, 'test-copydir-destination');
   if (!existsSync(path)) mkdirSync(path);
@@ -48,7 +54,7 @@ test('copydir without recursive', (t) => {
   t.is(file, Buffer.from(JSON.stringify({ message: 'Hello, bun! without recursive' })).toString('base64'));
 });
 
-test('copydir with recursive', (t) => {
+test('copydir - with recursive', (t) => {
   const path = join(__dirname, 'test-copydir');
   const pathDestination = join(__dirname, 'test-copydir-destination');
   if (!existsSync(path)) mkdirSync(path);
