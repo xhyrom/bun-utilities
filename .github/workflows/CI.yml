@@ -117,9 +117,6 @@ jobs:
           node-version: 16
           check-latest: true
           cache: yarn
-      - name: Prepare
-        if: ${{ !matrix.settings.docker }}
-        run: rm -rf /home/runner/.cargo/bin
       - name: Install
         uses: actions-rs/toolchain@v1
         if: ${{ !matrix.settings.docker }}
