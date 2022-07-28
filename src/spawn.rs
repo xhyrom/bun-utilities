@@ -124,7 +124,9 @@ pub fn exec_and_dont_wait(mut command_with_args: Vec<String>, options: Option<Op
   spawn_and_dont_wait(command, command_with_args, options)
 }
 
-#[napi]
+#[napi(
+  ts_return_type = "{ isExecuted: true }"
+)]
 pub fn spawn_and_dont_wait(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
   let options = Options {
     ..options.unwrap_or_default()
