@@ -114,3 +114,41 @@ pub fn spawn(command: String, args: Vec<String>, options: Option<Options>) -> Pr
     }
   }
 }
+
+// Alias for spawn_and_dont_wait
+#[napi]
+pub fn exec_and_dont_wait(mut command_with_args: Vec<String>, options: Option<Options>) -> ProcessResult {
+  let command = command_with_args.get(0).unwrap().to_string();
+  command_with_args.remove(0);
+
+  spawn_and_dont_wait(command, command_with_args, options)
+}
+
+#[napi]
+pub fn spawn_and_dont_wait(command: String, args: Vec<String>, options: Option<Options>) -> ProcessResult {
+  let options = Options {
+    ..options.unwrap_or_default()
+  };
+  let Stdio {
+    stderr,
+    stdin,
+    stdout,
+  } = options.map_stdio();
+  let Options { cwd, .. } = options;
+
+  Command::new(command)
+    .args(args)
+    .current_dir(cwd.unwrap_or_default())
+    .stdin(stdin)
+    .stderr(stderr)
+    .stdout(stdout)
+    .spawn()
+    .unwrap();
+
+  ProcessResult { 
+    stdout: None,
+    stderr: None,
+    exit_code: None,
+    is_executed: true,
+  }
+}
