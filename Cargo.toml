@@ -15,6 +15,7 @@ napi-derive = "2.6.0"
 network-interface = "0.1.2"
 sys-info = "0.9.1"
 sysinfo = "0.25.0"
+uptime_lib = "0.2.1"
 
 [build-dependencies]
 napi-build = "2.0.1"

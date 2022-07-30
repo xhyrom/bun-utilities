@@ -48,9 +48,9 @@ pub fn release() -> Option<String> {
 }
 
 #[napi]
-pub fn uptime() -> Option<i64> {
-    match sys_info::boottime() {
-        Ok(time) => Some(time.tv_sec),
+pub fn uptime() -> Option<f64> {
+    match uptime_lib::get() {
+        Ok(time) => Some(time.as_secs_f64()),
         Err(..) => None
     }
 }
