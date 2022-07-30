@@ -43,7 +43,11 @@ const jsFiles = [].concat(dotJsFiles, dotMJsFiles);
 
 for (const file of jsFiles) {
   const name = basename(file);
-  const text = (await readFile(file)).toString();
+  let text = (await readFile(file)).toString();
+
+  text = text
+    .replace("await (await import('../index.mjs')).default()", "await (await import('./index.mjs')).default()")
+    .replace("require('../index.js')()", "require('./index.js')()");
 
   await writeFile(join(folder, name), text);
 }
