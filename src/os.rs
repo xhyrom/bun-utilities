@@ -1,4 +1,4 @@
-use sysinfo::{SystemExt, CpuExt};
+use systemstat::{Platform, saturating_sub_bytes};
 
 #[napi]
 pub fn homedir() -> Option<String> {
@@ -49,13 +49,15 @@ pub fn release() -> Option<String> {
 
 #[napi]
 pub fn uptime() -> Option<f64> {
-    match uptime_lib::get() {
+    let sys = systemstat::System::new();
+
+    match sys.uptime() {
         Ok(time) => Some(time.as_secs_f64()),
         Err(..) => None
     }
 }
 
-#[napi(object)]
+/*#[napi(object)]
 pub struct CpuInfo {
     pub model: String,
     pub speed: i64,
@@ -80,62 +82,48 @@ pub fn cpus() -> Vec<CpuInfo> {
     }
 
     all_cpus
-}
+}*/
 
 // Memory functions implementation
 
 #[napi]
-pub fn total_memory() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
+pub fn total_memory() -> Option<i64> {
+    let sys = systemstat::System::new();
 
-    sys.total_memory() as i64
+    match sys.memory() {
+        Ok(mem) => Some(mem.total.as_u64() as i64),
+        Err(..) => None,
+    }
 }
 
 #[napi]
-pub fn used_memory() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
+pub fn free_memory() -> Option<i64> {
+    let sys = systemstat::System::new();
 
-    sys.used_memory() as i64
+    match sys.memory() {
+        Ok(mem) => Some(saturating_sub_bytes(mem.total, mem.free).as_u64() as i64),
+        Err(..) => None,
+    }
 }
 
 #[napi]
-pub fn available_memory() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
+pub fn total_swap() -> Option<i64> {
+    let sys = systemstat::System::new();
 
-    sys.available_memory() as i64
+    match sys.swap() {
+        Ok(swap) => Some(swap.total.as_u64() as i64),
+        Err(..) => None,
+    }
 }
 
 #[napi]
-pub fn free_memory() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
+pub fn free_swap() -> Option<i64> {
+    let sys = systemstat::System::new();
 
-    sys.free_memory() as i64
-}
-
-#[napi]
-pub fn total_swap() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
-
-    sys.total_swap() as i64
-}
-
-#[napi]
-pub fn used_swap() -> i64 {
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_memory(),
-    );
-
-    sys.used_swap() as i64
+    match sys.swap() {
+        Ok(swap) => Some(saturating_sub_bytes(swap.total, swap.free).as_u64() as i64),
+        Err(..) => None,
+    }
 }
 
 // in progress, waiting for https://github.com/EstebanBorai/network-interface/issues/13

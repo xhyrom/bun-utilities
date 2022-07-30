@@ -15,9 +15,7 @@ declare module 'bun-utilities/os' {
   }
   export function cpus(): Array<CpuInfo>;
   export function totalMemory(): number;
-  export function usedMemory(): number;
-  export function availableMemory(): number;
   export function freeMemory(): number;
   export function totalSwap(): number;
-  export function usedSwap(): number;
+  export function freeSwap(): number;
 }
