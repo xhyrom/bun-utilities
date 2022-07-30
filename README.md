@@ -2,9 +2,11 @@
 
 This package adds some missing utilities using `napi` until they are implemented natively.
 
-> **0.2.0 BREAKING CHANGES**
-> Utilities has been splitted
-> To import `exec`, use `import { exec } from 'bun-utilities/spawn'`
+> **0.2.0 BREAKING CHANGES**  
+> Utilities have been split    
+> To import `exec`, use `import { exec } from 'bun-utilities/spawn'`  
+> To import `rmdir`, use `import { rmdir } from 'bun-utilities/fs'`  
+> To import `homedir`, use `import { homedir } from 'bun-utilities/os'`  
 
 ## Current utilities
 
