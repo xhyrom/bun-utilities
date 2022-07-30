@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 
-import pkg from '../package.json' assert {type: 'json'};
+import pkg from '../dist/package.json' assert {type: 'json'};
 
 pkg.name = `@xhyrom/${pkg.name}`;
-writeFileSync('./package.json', JSON.stringify(pkg));
+writeFileSync('./dist/package.json', JSON.stringify(pkg));

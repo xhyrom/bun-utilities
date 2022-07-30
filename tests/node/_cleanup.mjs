@@ -1,5 +1,6 @@
-import { rmdir } from '../../lib/index.js';
+
 import { join } from 'path';
+import { rmdir } from '../../lib/utils/fs.mjs';
 
 const urlPathName = new URL('.', import.meta.url).pathname;
 const __dirname = process.platform === 'win32' ? urlPathName.slice(1) : urlPathName;

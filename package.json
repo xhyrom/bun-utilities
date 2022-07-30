@@ -1,14 +1,7 @@
 {
   "name": "bun-utilities",
-  "version": "0.1.9",
-  "main": "lib/index.mjs",
-  "types": "lib/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./lib/index.mjs",
-      "require": "./lib/index.js"
-    }
-  },
+  "version": "0.2.0",
+  "description": "Bindings for useful functions for bun ",
   "napi": {
     "name": "bun-utilities",
     "triples": {
@@ -61,6 +54,7 @@
     "artifacts": "node scripts/moveArtifacts.mjs",
     "build": "napi build --platform --release lib",
     "build:debug": "napi build --platform lib",
+    "bundle": "node scripts/bundle.mjs",
     "move": "node scripts/moveFiles.mjs",
     "gpr": "node scripts/gpr.mjs",
     "prepublishOnly": "node scripts/moveFiles.mjs",

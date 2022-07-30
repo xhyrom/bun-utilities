@@ -6,3 +6,4 @@ extern crate napi_derive;
 
 mod spawn;
 mod fs;
+mod os;

@@ -1,5 +1,5 @@
 import { run, bench } from 'mitata';
-import { spawn } from '../../lib/index.mjs';
+import { spawn } from '../../lib/utils/spawn.mjs';
 import { join } from 'node:path';
 
 const __dirname = new URL('.', import.meta.url).pathname;

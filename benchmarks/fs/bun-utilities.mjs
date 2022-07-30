@@ -1,8 +1,7 @@
 import { run, bench, group } from 'mitata';
-import { copydir, copyfile, rmdir } from '../../lib/index.mjs';
+import { copydir, copyfile, rmdir } from '../../lib/utils/fs.mjs';
 import { copyFile, mkdir } from 'fs/promises';
 import { join } from 'path';
-import { constants } from 'fs';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 

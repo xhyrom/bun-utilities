@@ -532,11 +532,12 @@ jobs:
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
+      - name: Bundle lib
+        run: yarn bundle
       - name: Publish
         if: github.event_name == 'workflow_dispatch'
         run: |
-          ls -R ./lib
-          npm publish --access public
+          cd dist/ && npm publish --access public
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -574,12 +575,14 @@ jobs:
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
+      - name: Bundle lib
+        run: yarn bundle
       - name: Add scope to name
         run: yarn run gpr
       - name: Publish
         if: github.event_name == 'workflow_dispatch'
         run: |
-          npm publish --access public
+          cd dist/ && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   create-release:
@@ -617,6 +620,8 @@ jobs:
           path: artifacts
       - name: Move artifacts
         run: yarn artifacts
+      - name: Bundle lib
+        run: yarn bundle
       - name: Set version
         run: echo "version=$(jq --raw-output '.version' package.json)" >> $GITHUB_ENV
       - name: Create Release
@@ -626,6 +631,6 @@ jobs:
           body: "This is the release of bun-utilities that corresponds to the commit [${{ github.sha }}]"
           token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            lib/bindings/*
+            dist/bindings/*
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

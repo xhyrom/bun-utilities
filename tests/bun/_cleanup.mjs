@@ -1,5 +1,5 @@
-import { rmdir } from '../../lib/index.mjs';
 import { join } from 'path';
+import { rmdir } from '../../lib/utils/fs.mjs';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 

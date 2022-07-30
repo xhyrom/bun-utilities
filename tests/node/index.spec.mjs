@@ -1,5 +1,6 @@
-import test from 'ava'
-import { exec, rmdir, copydir, copyfile } from '../../lib/index.js';
+import test from 'ava';
+import { exec } from '../../lib/utils/spawn.mjs';
+import { rmdir, copydir, copyfile } from '../../lib/utils/fs.mjs';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 

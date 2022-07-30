@@ -1,5 +1,6 @@
 import { expect, it } from 'bun:test';
-import { exec, rmdir, copydir, copyfile } from '../../lib/index.mjs';
+import { exec } from '../../lib/utils/spawn.mjs';
+import { rmdir, copydir, copyfile } from '../../lib/utils/fs.mjs';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 
