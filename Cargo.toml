@@ -12,7 +12,6 @@ hostname = "0.3.1"
 # Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
 napi = { version = "2.6.0", default-features = false, features = ["napi8"] }
 napi-derive = "2.6.0"
-network-interface = "0.1.2"
 sys-info = "0.9.1"
 sysinfo = "0.25.0"
 uptime_lib = "0.2.1"
