@@ -1,3 +1,4 @@
+use network_interface::{Addr, NetworkInterfaceConfig};
 use systemstat::{Platform, saturating_sub_bytes};
 
 #[napi]
@@ -127,10 +128,15 @@ pub fn free_swap() -> Option<i64> {
 }
 
 // in progress, waiting for https://github.com/EstebanBorai/network-interface/issues/13
-/*#[napi(object)]
+#[napi(object)]
 pub struct NetworkInfo {
     pub name: String,
     pub address: String,
+    pub netmask: Option<String>,
+    #[napi(
+        ts_type = "'IPv4' | 'IPv6'"
+    )]
+    pub family: String,
     /*pub interface_name: String,
     pub received: BigInt,
     pub total_received: BigInt,
@@ -147,32 +153,35 @@ pub struct NetworkInfo {
 }
 
 #[napi]
-pub fn network_interfaces() -> Vec<NetworkInfo> {
-    let mut all_network_interfaces = Vec::new();
+pub unsafe fn network_interfaces() -> Vec<NetworkInfo> {
+    let all_network_interfaces = network_interface::NetworkInterface::show().unwrap();
+    let ifaces = all_network_interfaces.iter().filter_map(|net| {
+        if let Some(net_addr) = net.addr {
+            let address: String = match net_addr {
+                Addr::V4(ip_addr) => ip_addr.ip.to_string(),
+                Addr::V6(ip_addr) => ip_addr.ip.to_string(),
+            };
 
+            let netmask: String = match net_addr {
+                Addr::V4(ip_addr) => ip_addr.netmask.unwrap_unchecked().to_string(),
+                Addr::V6(ip_addr) => ip_addr.netmask.unwrap_unchecked().to_string(),
+            };
 
-    /*let mut all_network_interfaces = Vec::new();
-    let sys = sysinfo::System::new_with_specifics(
-        sysinfo::RefreshKind::new().with_networks_list(),
-    );
+            let family: String = match net_addr {
+                Addr::V4(..) => "IPv4".to_string(),
+                Addr::V6(..) => "IPv6".to_string(),
+            };
 
-    for (name, data) in sys.networks() {
-        all_network_interfaces.push(NetworkInfo {
-            interface_name: name.to_string(),
-            received: BigInt::from(data.received()),
-            total_received: BigInt::from(data.total_received()),
-            transmitted: BigInt::from(data.transmitted()),
-            total_transmitted: BigInt::from(data.total_transmitted()),
-            packets_received: BigInt::from(data.packets_received()),
-            total_packets_received: BigInt::from(data.total_packets_received()),
-            packets_transmitted: BigInt::from(data.packets_transmitted()),
-            total_packets_transmitted: BigInt::from(data.total_packets_transmitted()),
-            errors_on_received: BigInt::from(data.errors_on_received()),
-            total_errors_on_received: BigInt::from(data.total_errors_on_received()),
-            errors_on_transmitted: BigInt::from(data.errors_on_transmitted()),
-            total_errors_on_transmitted: BigInt::from(data.total_errors_on_transmitted()),
-        })
-    }
+            return Some(NetworkInfo {
+                name: net.name.clone(),
+                address,
+                netmask: Some(netmask),
+                family,
+            });
+        }
 
-    all_network_interfaces*/
-}*/
+        None
+    }).collect::<Vec<NetworkInfo>>();
+
+    ifaces
+}
