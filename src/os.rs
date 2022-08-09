@@ -128,7 +128,7 @@ pub fn free_swap() -> Option<i64> {
 }
 
 // in progress, waiting for https://github.com/EstebanBorai/network-interface/issues/13
-#[napi(object)]
+/*#[napi(object)]
 pub struct NetworkInfo {
     pub name: String,
     pub address: String,
@@ -184,4 +184,4 @@ pub unsafe fn network_interfaces() -> Vec<NetworkInfo> {
     }).collect::<Vec<NetworkInfo>>();
 
     ifaces
-}
+}*/
