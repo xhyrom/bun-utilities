@@ -1,4 +1,4 @@
-use network_interface::{Addr, NetworkInterfaceConfig};
+//use network_interface::{Addr, NetworkInterfaceConfig};
 use systemstat::{Platform, saturating_sub_bytes};
 
 #[napi]

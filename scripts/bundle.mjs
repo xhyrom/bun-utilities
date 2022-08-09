@@ -29,7 +29,7 @@ for (let i = 0; i < filesToCat.length; i++) {
     '// ' +
       name +
       '\n\n' +
-      ((await readFile(resolve(__dirname, '..', name))).toString()) +
+      ((await readFile(resolve(__dirname, '..', name), { encoding: 'utf-8' })).toString()) +
       '\n'
   );
 }
