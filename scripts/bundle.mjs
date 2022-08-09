@@ -82,16 +82,20 @@ const packageJson = {
       require: './spawn.js'
     },
     './fs.*': {
-      import: './fs.mjs',
-      require: './fs.js'
+      import: './fs.*',
+      require: './fs.*'
     },
     './os.*': {
-      import: './os.mjs',
-      require: './os.js'
+      import: './os.*',
+      require: './os.*'
     },
     './spawn.*': {
-      import: './spawn.mjs',
-      require: './spawn.js'
+      import: './spawn.*',
+      require: './spawn.*'
+    },
+    './*': {
+      import: './*',
+      require: './*'
     }
   },
   author: rootPackageJson.author,
