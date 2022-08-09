@@ -1,6 +1,6 @@
 {
   "name": "bun-utilities",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bindings for useful functions for bun ",
   "napi": {
     "name": "bun-utilities",

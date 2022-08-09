@@ -20,8 +20,8 @@ const header = [
     '',
     ''
 ].join('\n');
-const filesToCat = (await getXFiles('.d.ts')).filter(f => !['index.d.ts'].some(tf => f.includes(tf)));
-const fileContents = [];
+const filesToCat = await getXFiles('.d.ts');
+/*const fileContents = [];
 
 for (let i = 0; i < filesToCat.length; i++) {
   const name = filesToCat[i];
@@ -35,7 +35,13 @@ for (let i = 0; i < filesToCat.length; i++) {
 }
 
 const text = header + fileContents.join('\n');
-await writeFile(join(folder, 'types.d.ts'), text);
+await writeFile(join(folder, 'types.d.ts'), text);*/
+for (const file of filesToCat) {
+  let content = (await readFile(resolve(__dirname, '..', file))).toString();
+  if (file.includes('index.d.ts')) content = content.replaceAll('./utils/', './');
+
+  writeFile(join(folder, basename(file)), content);
+}
 
 const dotJsFiles = await getXFiles('.js');
 const dotMJsFiles = await getXFiles('.mjs');
@@ -66,8 +72,8 @@ const packageJson = {
   types: './types.d.ts',
   exports: {
     '.': {
-      import: './spawn.mjs',
-      require: './spawn.js'
+      import: './index.mjs',
+      require: './index.js'
     },
     './fs': {
       import: './fs.mjs',
