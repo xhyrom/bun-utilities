@@ -1,5 +1,10 @@
 //use network_interface::{Addr, NetworkInterfaceConfig};
-use systemstat::{saturating_sub_bytes, Platform};
+use lazy_static::lazy_static;
+use systemstat::{saturating_sub_bytes, Platform, System};
+
+lazy_static! {
+    static ref SYSTEM_STAT: System = System::new();
+}
 
 #[napi]
 pub fn homedir() -> Option<String> {
@@ -50,7 +55,7 @@ pub fn release() -> Option<String> {
 
 #[napi]
 pub fn uptime() -> Option<f64> {
-    match systemstat::System::new().uptime() {
+    match SYSTEM_STAT.uptime() {
         Ok(time) => Some(time.as_secs_f64()),
         Err(_) => None,
     }
@@ -87,7 +92,7 @@ pub fn cpus() -> Vec<CpuInfo> {
 
 #[napi]
 pub fn total_memory() -> Option<i64> {
-    match systemstat::System::new().memory() {
+    match SYSTEM_STAT.memory() {
         Ok(mem) => Some(mem.total.as_u64() as i64),
         Err(_) => None,
     }
@@ -95,7 +100,7 @@ pub fn total_memory() -> Option<i64> {
 
 #[napi]
 pub fn free_memory() -> Option<i64> {
-    match systemstat::System::new().memory() {
+    match SYSTEM_STAT.memory() {
         Ok(mem) => Some(saturating_sub_bytes(mem.total, mem.free).as_u64() as i64),
         Err(_) => None,
     }
@@ -103,7 +108,7 @@ pub fn free_memory() -> Option<i64> {
 
 #[napi]
 pub fn total_swap() -> Option<i64> {
-    match systemstat::System::new().swap() {
+    match SYSTEM_STAT.swap() {
         Ok(swap) => Some(swap.total.as_u64() as i64),
         Err(_) => None,
     }
@@ -111,7 +116,7 @@ pub fn total_swap() -> Option<i64> {
 
 #[napi]
 pub fn free_swap() -> Option<i64> {
-    match systemstat::System::new().swap() {
+    match SYSTEM_STAT.swap() {
         Ok(swap) => Some(saturating_sub_bytes(swap.total, swap.free).as_u64() as i64),
         Err(_) => None,
     }
