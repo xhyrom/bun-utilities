@@ -30,15 +30,10 @@ pub fn rmdir(path: String, options: Option<RecursiveOptions>) -> String {
         false => fs::remove_dir(path),
     };
 
-    let message = match result {
-        Ok(()) => "ok",
-        Err(e) => {
-            error = format!("{}", e.kind().to_string());
-            &error
-        }
-    };
-
-    message.to_string()
+    match result {
+        Ok(()) => "ok".to_string(),
+        Err(e) => format!("{}", e.kind()),
+    }
 }
 
 #[napi]
@@ -88,24 +83,22 @@ pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> St
         return "Invalid source folder".to_string();
     }
 
-    if destination.exists() && !recursive {
-        return "Destination folder exists".to_string();
-    }
-
-    if destination.exists() && recursive {
-        rmdir(
-            destination.to_str().unwrap().to_string(),
-            Some(RecursiveOptions {
-                recursive: Some(true),
-            }),
-        );
+    if destination.exists() {
+        if recursive {
+            rmdir(
+                destination.to_str().unwrap().to_string(),
+                Some(RecursiveOptions {
+                    recursive: Some(true),
+                }),
+            );
+        } else {
+            return "Destination folder exists".to_string();
+        }
     }
 
     match __copydir(source, destination, recursive, copy_files) {
         Ok(..) => String::from("ok"),
-        Err(e) => {
-            format!("{}", e.kind())
-        }
+        Err(e) => format!("{}", e.kind()),
     }
 }
 
