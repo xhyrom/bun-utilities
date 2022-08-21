@@ -60,16 +60,10 @@ pub fn copyfile(src: String, dest: String, options: Option<RecursiveOptions>) ->
         return "Destination file exists".to_string();
     }
 
-    let error;
-    let message = match __copyfile(source, destination) {
-        Ok(..) => "ok",
-        Err(e) => {
-            error = format!("{}", e.kind().to_string());
-            &error
-        }
-    };
-
-    return message.to_string();
+    match __copyfile(source, destination) {
+        Ok(..) => "ok".to_string(),
+        Err(e) => format!("{}", e.kind()),
+    }
 }
 
 // Internal implementation for copyfile function
