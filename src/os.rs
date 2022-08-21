@@ -1,5 +1,5 @@
 //use network_interface::{Addr, NetworkInterfaceConfig};
-use systemstat::{Platform, saturating_sub_bytes};
+use systemstat::{saturating_sub_bytes, Platform};
 
 #[napi]
 pub fn homedir() -> Option<String> {
@@ -26,7 +26,7 @@ pub fn tempdir() -> String {
 pub fn hostname() -> Option<String> {
     match hostname::get() {
         Ok(name) => Some(name.to_str().unwrap().to_string()),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
@@ -44,17 +44,15 @@ pub fn arch() -> String {
 pub fn release() -> Option<String> {
     match sys_info::os_release() {
         Ok(name) => Some(name),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
 #[napi]
 pub fn uptime() -> Option<f64> {
-    let sys = systemstat::System::new();
-
-    match sys.uptime() {
+    match systemstat::System::new().uptime() {
         Ok(time) => Some(time.as_secs_f64()),
-        Err(..) => None
+        Err(_) => None,
     }
 }
 
@@ -63,7 +61,7 @@ pub struct CpuInfo {
     pub model: String,
     pub speed: i64,
     pub usage: f64,
-    pub ventor_id: String,
+    pub vendor_id: String,
 }
 
 #[napi]
@@ -72,13 +70,13 @@ pub fn cpus() -> Vec<CpuInfo> {
     let sys = sysinfo::System::new_with_specifics(
         sysinfo::RefreshKind::new().with_cpu(sysinfo::CpuRefreshKind::everything()),
     );
-    
+
     for cpu in sys.cpus() {
         all_cpus.push(CpuInfo {
             model: cpu.brand().to_string(),
             speed: cpu.frequency() as i64,
             usage: f64::from(cpu.cpu_usage()),
-            ventor_id: cpu.vendor_id().to_string()
+            vendor_id: cpu.vendor_id().to_string()
         })
     }
 
@@ -89,41 +87,33 @@ pub fn cpus() -> Vec<CpuInfo> {
 
 #[napi]
 pub fn total_memory() -> Option<i64> {
-    let sys = systemstat::System::new();
-
-    match sys.memory() {
+    match systemstat::System::new().memory() {
         Ok(mem) => Some(mem.total.as_u64() as i64),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
 #[napi]
 pub fn free_memory() -> Option<i64> {
-    let sys = systemstat::System::new();
-
-    match sys.memory() {
+    match systemstat::System::new().memory() {
         Ok(mem) => Some(saturating_sub_bytes(mem.total, mem.free).as_u64() as i64),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
 #[napi]
 pub fn total_swap() -> Option<i64> {
-    let sys = systemstat::System::new();
-
-    match sys.swap() {
+    match systemstat::System::new().swap() {
         Ok(swap) => Some(swap.total.as_u64() as i64),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
 #[napi]
 pub fn free_swap() -> Option<i64> {
-    let sys = systemstat::System::new();
-
-    match sys.swap() {
+    match systemstat::System::new().swap() {
         Ok(swap) => Some(saturating_sub_bytes(swap.total, swap.free).as_u64() as i64),
-        Err(..) => None,
+        Err(_) => None,
     }
 }
 
