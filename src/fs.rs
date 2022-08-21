@@ -1,7 +1,7 @@
 use std::{fs, io, path::Path};
 
 #[napi(object)]
-pub struct Recursive {
+pub struct RecursiveOptions {
     pub recursive: Option<bool>,
 }
 
@@ -12,8 +12,8 @@ pub struct CopyDirOptions {
 }
 
 #[napi]
-pub fn rmdir(path: String, options: Option<Recursive>) -> String {
-    let options = options.unwrap_or(Recursive {
+pub fn rmdir(path: String, options: Option<RecursiveOptions>) -> String {
+    let options = options.unwrap_or(RecursiveOptions {
         recursive: Some(false),
     });
 
@@ -42,8 +42,8 @@ pub fn rmdir(path: String, options: Option<Recursive>) -> String {
 }
 
 #[napi]
-pub fn copyfile(src: String, dest: String, options: Option<Recursive>) -> String {
-    let options = options.unwrap_or(Recursive {
+pub fn copyfile(src: String, dest: String, options: Option<RecursiveOptions>) -> String {
+    let options = options.unwrap_or(RecursiveOptions {
         recursive: Some(false),
     });
 
@@ -101,7 +101,7 @@ pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> St
     if destination.exists() && recursive {
         rmdir(
             destination.to_str().unwrap().to_string(),
-            Some(Recursive {
+            Some(RecursiveOptions {
                 recursive: Some(true),
             }),
         );
@@ -109,9 +109,7 @@ pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> St
 
     let message = match __copydir(source, destination, recursive, copy_files) {
         Ok(..) => "ok",
-        Err(e) => {
-            format!("{}", e.kind().to_string())
-        }
+        Err(e) => format!("{}", e.kind().to_string()).as_str(),
     };
 
     return message.to_string();
