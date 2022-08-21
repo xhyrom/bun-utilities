@@ -107,12 +107,12 @@ pub fn copydir(src: String, dest: String, options: Option<CopyDirOptions>) -> St
         );
     }
 
-    let message = match __copydir(source, destination, recursive, copy_files) {
-        Ok(..) => "ok",
-        Err(e) => format!("{}", e.kind().to_string()).as_str(),
-    };
-
-    return message.to_string();
+    match __copydir(source, destination, recursive, copy_files) {
+        Ok(..) => String::from("ok"),
+        Err(e) => {
+            format!("{}", e.kind())
+        }
+    }
 }
 
 // Internal implementation for copydir function
