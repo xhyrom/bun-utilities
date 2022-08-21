@@ -20,7 +20,7 @@ pub fn rmdir(path: String, options: Option<RecursiveOptions>) -> String {
     let recursive = options.recursive.unwrap_or(false);
 
     let path = Path::new(&path);
-    let error;
+
     if !path.exists() {
         return "Invalid file".to_string();
     }
