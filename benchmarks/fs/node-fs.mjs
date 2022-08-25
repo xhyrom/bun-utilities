@@ -54,7 +54,7 @@ const output = await run();
 writeFile(join(__dirname, 'outputs', 'node-fs.json'), JSON.stringify(output));
 
 // Cleanup
-await rmdir(copyDirPathEmpty, { recrusive: true });
+await rmdir(copyDirPathEmpty, { recursive: true });
 await rmdir(copyDirPathWithFiles, { recursive: true });
 await rmdir(join(__dirname, 'test-copyfile'), { recursive: true });
 await rmdir(join(__dirname, 'test-copyfile-destination'), { recursive: true });
